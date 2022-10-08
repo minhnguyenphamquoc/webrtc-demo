@@ -1,0 +1,10 @@
+{
+  "name": "webrtc-demo",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "pho",
+      "banhmi"
+    ]
+  }
+}
