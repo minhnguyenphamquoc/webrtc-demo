@@ -1,5 +1,8 @@
 # WebRTC Demo App
 
-## Getting Started
+## Structure
 
-(To be updated)
+| Codebase         | Description |
+| :--------------- | :---------: |
+| [banhmi](banhmi) |   Server    |
+| [pho](pho)       |   Client    |
