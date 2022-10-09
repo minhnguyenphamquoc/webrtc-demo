@@ -5,7 +5,7 @@
   "printWidth": 80,
   "singleQuote": true,
   "arrowParens": "always",
-  "importOrder": ["^@/(.*)$", "^[./]"],
+  "importOrder": ["react", "^@/(.*)$", "^[./]"],
   "importOrderSeparation": true,
   "importOrderSortSpecifiers": true
 }
