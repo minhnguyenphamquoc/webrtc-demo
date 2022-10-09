@@ -1661,6 +1661,16 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
+"@reduxjs/toolkit@^1.8.6":
+  version "1.8.6"
+  resolved "https://registry.yarnpkg.com/@reduxjs/toolkit/-/toolkit-1.8.6.tgz#147fb7957befcdb75bc9c1230db63628e30e4332"
+  integrity sha512-4Ia/Loc6WLmdSOzi7k5ff7dLK8CgG2b8aqpLsCAJhazAzGdp//YBUSaj0ceW6a3kDBDNRrq5CRwyCS0wBiL1ig==
+  dependencies:
+    immer "^9.0.7"
+    redux "^4.1.2"
+    redux-thunk "^2.4.1"
+    reselect "^4.1.5"
+
 "@rollup/plugin-babel@^5.2.0":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz#04bc0608f4aa4b2e4b1aebf284344d0f68fda283"
@@ -2165,6 +2175,13 @@
     "@types/prop-types" "*"
     "@types/scheduler" "*"
     csstype "^3.0.2"
+
+"@types/redux-logger@^3.0.9":
+  version "3.0.9"
+  resolved "https://registry.yarnpkg.com/@types/redux-logger/-/redux-logger-3.0.9.tgz#9193b3d51bb6ab98d25514ba7764e4f98a64d3ec"
+  integrity sha512-cwYhVbYNgH01aepeMwhd0ABX6fhVB2rcQ9m80u8Fl50ZODhsZ8RhQArnLTkE7/Zrfq4Sz/taNoF7DQy9pCZSKg==
+  dependencies:
+    redux "^4.0.0"
 
 "@types/resolve@1.17.1":
   version "1.17.1"
@@ -3672,6 +3689,11 @@ dedent@^0.7.0:
   resolved "https://registry.yarnpkg.com/dedent/-/dedent-0.7.0.tgz#2495ddbaf6eb874abb0e1be9df22d2e5a544326c"
   integrity sha512-Q6fKUPqnAHAyhiUgFU7BUzLiv0kd8saH9al7tnu5Q/okj6dnupxyTgFIBjVzJATdfIAm9NAsvXNzjaKa+bxVyA==
 
+deep-diff@^0.3.5:
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/deep-diff/-/deep-diff-0.3.8.tgz#c01de63efb0eec9798801d40c7e0dae25b582c84"
+  integrity sha512-yVn6RZmHiGnxRKR9sJb3iVV2XTF1Ghh2DiWRZ3dMnGc43yUdWWF/kX6lQyk3+P84iprfWKU/8zFTrlkvtFm1ug==
+
 deep-is@^0.1.3, deep-is@~0.1.3:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.4.tgz#a6f2dce612fadd2ef1f519b73551f17e85199831"
@@ -4077,6 +4099,11 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
+eslint-config-prettier@^8.5.0:
+  version "8.5.0"
+  resolved "https://registry.yarnpkg.com/eslint-config-prettier/-/eslint-config-prettier-8.5.0.tgz#5a81680ec934beca02c7b1a61cf8ca34b66feab1"
+  integrity sha512-obmWKLUNCnhtQRKc+tmnYuQl0pFU1ibYJQ5BGhTVB08bHe9wC8qUeG7c08dj9XX+AuPj1YSGSQIHl1pnDHZR0Q==
+
 eslint-config-react-app@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/eslint-config-react-app/-/eslint-config-react-app-7.0.1.tgz#73ba3929978001c5c86274c017ea57eb5fa644b4"
@@ -4199,6 +4226,13 @@ eslint-plugin-n@^15.0.0:
     minimatch "^3.1.2"
     resolve "^1.22.1"
     semver "^7.3.7"
+
+eslint-plugin-prettier@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-prettier/-/eslint-plugin-prettier-4.2.1.tgz#651cbb88b1dab98bfd42f017a12fa6b2d993f94b"
+  integrity sha512-f/0rXLXUt0oFYs8ra4w49wYZBG5GKZpAYsJSm6rnYL5uVDjd+zowwMwVZHnAjf4edNrKpCDYfXDgmRE/Ak7QyQ==
+  dependencies:
+    prettier-linter-helpers "^1.0.0"
 
 eslint-plugin-promise@^6.0.0:
   version "6.0.1"
@@ -4482,6 +4516,11 @@ fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:
   version "3.1.3"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-3.1.3.tgz#3a7d56b559d6cbc3eb512325244e619a65c6c525"
   integrity sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==
+
+fast-diff@^1.1.2:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/fast-diff/-/fast-diff-1.2.0.tgz#73ee11982d86caaf7959828d519cfe927fac5f03"
+  integrity sha512-xJuoT5+L99XlZ8twedaRf6Ax2TgQVxvgZOYoPKqZufmJib0tL2tegPBOZb1pVNgIhlqDlA0eO0c3wBvQcmzx4w==
 
 fast-glob@^3.2.11, fast-glob@^3.2.9:
   version "3.2.12"
@@ -7375,6 +7414,13 @@ prelude-ls@~1.1.2:
   resolved "https://registry.yarnpkg.com/prelude-ls/-/prelude-ls-1.1.2.tgz#21932a549f5e52ffd9a827f570e04be62a97da54"
   integrity sha512-ESF23V4SKG6lVSGZgYNpbsiaAkdab6ZgOxe52p7+Kid3W3u3bxR4Vfd/o21dmN7jSt0IwgZ4v5MUd26FEtXE9w==
 
+prettier-linter-helpers@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/prettier-linter-helpers/-/prettier-linter-helpers-1.0.0.tgz#d23d41fe1375646de2d0104d3454a3008802cf7b"
+  integrity sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==
+  dependencies:
+    fast-diff "^1.1.2"
+
 prettier@^2.7.1:
   version "2.7.1"
   resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.7.1.tgz#e235806850d057f97bb08368a4f7d899f7760c64"
@@ -7722,6 +7768,25 @@ redent@^3.0.0:
     indent-string "^4.0.0"
     strip-indent "^3.0.0"
 
+redux-logger@^3.0.6:
+  version "3.0.6"
+  resolved "https://registry.yarnpkg.com/redux-logger/-/redux-logger-3.0.6.tgz#f7555966f3098f3c88604c449cf0baf5778274bf"
+  integrity sha512-JoCIok7bg/XpqA1JqCqXFypuqBbQzGQySrhFzewB7ThcnysTO30l4VCst86AuB9T9tuT03MAA56Jw2PNhRSNCg==
+  dependencies:
+    deep-diff "^0.3.5"
+
+redux-thunk@^2.4.1:
+  version "2.4.1"
+  resolved "https://registry.yarnpkg.com/redux-thunk/-/redux-thunk-2.4.1.tgz#0dd8042cf47868f4b29699941de03c9301a75714"
+  integrity sha512-OOYGNY5Jy2TWvTL1KgAlVy6dcx3siPJ1wTq741EPyUKfn6W6nChdICjZwCd0p8AZBs5kWpZlbkXW2nE/zjUa+Q==
+
+redux@^4.0.0, redux@^4.1.2:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/redux/-/redux-4.2.0.tgz#46f10d6e29b6666df758780437651eeb2b969f13"
+  integrity sha512-oSBmcKKIuIR4ME29/AeNUnl5L+hvBq7OaJWzaptTQJAntaPvxIJqfnjbaEiCzzaIz+XmVILfqAM3Ob0aXLPfjA==
+  dependencies:
+    "@babel/runtime" "^7.9.2"
+
 regenerate-unicode-properties@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/regenerate-unicode-properties/-/regenerate-unicode-properties-10.1.0.tgz#7c3192cab6dd24e21cb4461e5ddd7dd24fa8374c"
@@ -7819,6 +7884,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/requires-port/-/requires-port-1.0.0.tgz#925d2601d39ac485e091cf0da5c6e694dc3dcaff"
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
+
+reselect@^4.1.5:
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.6.tgz#19ca2d3d0b35373a74dc1c98692cdaffb6602656"
+  integrity sha512-ZovIuXqto7elwnxyXbBtCPo9YFEr3uJqj2rRbcOOog1bmu2Ag85M4hixSwFWyaBMKXNgvPaJ9OSu9SkBPIeJHQ==
 
 resolve-cwd@^3.0.0:
   version "3.0.0"
@@ -8776,7 +8846,7 @@ typedarray-to-buffer@^3.1.5:
   dependencies:
     is-typedarray "^1.0.0"
 
-typescript@*, typescript@^4.8.4:
+typescript@^4.8.4:
   version "4.8.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.8.4.tgz#c464abca159669597be5f96b8943500b238e60e6"
   integrity sha512-QCh+85mCy+h0IGff8r5XWzOVSbBO+KfeYrMQh7NJ58QujwcE22u+NUSmUxqF+un70P9GXKxa2HCNiTTMJknyjQ==

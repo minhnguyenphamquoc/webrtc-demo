@@ -1,0 +1,4 @@
+{
+  "eslint.workingDirectories": ["./banhmi", "./pho"],
+  "git.ignoreLimitWarning": true
+}
