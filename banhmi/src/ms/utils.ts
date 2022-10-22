@@ -1,6 +1,7 @@
 import * as mediasoup from 'mediasoup';
 import { Router } from 'mediasoup/node/lib/Router';
 
+import { CreateWebRtcTransportResponse } from '@/handlers/rtc';
 import { logger } from '@/utils/logger';
 
 export const createWorker = async () => {
@@ -19,24 +20,29 @@ export const createWorker = async () => {
   return worker;
 };
 
+/**
+ *
+ * @param router Mediasoup's Router
+ * @param callback Callback from socket
+ * @returns
+ */
 export const createWebRtcTransport = async (
   router: Router,
-  cb: (params: unknown) => void
+  callback: (payload: CreateWebRtcTransportResponse) => void
 ) => {
+  // https://mediasoup.org/documentation/v3/mediasoup/api/#WebRtcTransportOptions
+  const webRtcTransportOptions = {
+    listenIps: [
+      {
+        ip: '0.0.0.0', // replace with relevant IP address
+        announcedIp: '127.0.0.1',
+      },
+    ],
+    enableUdp: true,
+    enableTcp: true,
+    preferUdp: true,
+  };
   try {
-    // https://mediasoup.org/documentation/v3/mediasoup/api/#WebRtcTransportOptions
-    const webRtcTransportOptions = {
-      listenIps: [
-        {
-          ip: '0.0.0.0', // replace with relevant IP address
-          announcedIp: '127.0.0.1',
-        },
-      ],
-      enableUdp: true,
-      enableTcp: true,
-      preferUdp: true,
-    };
-
     const transport = await router.createWebRtcTransport(
       webRtcTransportOptions
     );
@@ -51,7 +57,7 @@ export const createWebRtcTransport = async (
     });
 
     // Send back to the client the following parameters
-    cb({
+    callback({
       // https://mediasoup.org/documentation/v3/mediasoup-client/api/#TransportOptions
       params: {
         id: transport.id,
@@ -63,7 +69,7 @@ export const createWebRtcTransport = async (
     return transport;
   } catch (err) {
     logger.error(err);
-    cb({
+    callback({
       params: {
         error: err,
       },

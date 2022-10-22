@@ -9,6 +9,7 @@
   ],
   "rules": {
     "no-console": "warn",
-    "@typescript-eslint/no-non-null-assertion": "warn"
+    "@typescript-eslint/no-non-null-assertion": "warn",
+    "@typescript-eslint/strict-boolean-expressions": "off"
   }
 }
