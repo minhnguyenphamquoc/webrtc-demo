@@ -1,5 +1,6 @@
 {
   "eslint.workingDirectories": ["./banhmi", "./pho"],
   "git.ignoreLimitWarning": true,
-  "cSpell.words": ["transportclose"]
+  "cSpell.words": ["producerclose", "trackended", "transportclose"],
+  "typescript.preferences.importModuleSpecifier": "non-relative"
 }
