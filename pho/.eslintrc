@@ -21,6 +21,8 @@
   },
   "plugins": ["react", "prettier"],
   "rules": {
+    "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/strict-boolean-expressions": "off",
     "no-extra-semi": "off",
     "prettier/prettier": "error",
     "@typescript-eslint/semi": "off",

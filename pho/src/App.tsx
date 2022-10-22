@@ -1,8 +1,10 @@
 import { ChakraProvider } from '@chakra-ui/react';
 import React from 'react';
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from 'react-redux';
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 
+import WebSocketProvider from '@/modules/ws/WebSocketProvider';
 import IndexPage from '@/pages';
 import AboutPage from '@/pages/about';
 import ErrorPage from '@/pages/error';
@@ -24,11 +26,15 @@ const router = createBrowserRouter([
 const App: React.FC<{}> = () => {
   return (
     <>
-      <Provider store={store}>
-        <ChakraProvider>
-          <RouterProvider router={router} />
-        </ChakraProvider>
-      </Provider>
+      <HelmetProvider>
+        <Provider store={store}>
+          <WebSocketProvider>
+            <ChakraProvider>
+              <RouterProvider router={router} />
+            </ChakraProvider>
+          </WebSocketProvider>
+        </Provider>
+      </HelmetProvider>
     </>
   );
 };
