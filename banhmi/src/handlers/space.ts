@@ -1,4 +1,4 @@
-import { peerCollection, producerCollection } from '@/data/collections';
+import { producerCollection, socketCollection } from '@/data/collections';
 import {
   GetParticipantsErrorResponse,
   GetParticipantsPayload,
@@ -31,7 +31,7 @@ export const registerSpaceHandlers = (
     // Assign socket to a specific space
     await socket.join(spaceIdStr);
     // Add spaceId to room
-    peerCollection[socket.id].spaceId = spaceId;
+    socketCollection[socket.id].spaceId = spaceId;
 
     // Broadcast recent joined user to all sockets in space
     io.to(spaceIdStr).emit('space:recent-user-join', {
@@ -48,7 +48,7 @@ export const registerSpaceHandlers = (
    * Handles leaving current space
    */
   const spaceLeaveHandler = async () => {
-    const { spaceId } = peerCollection[socket.id];
+    const { spaceId } = socketCollection[socket.id];
     if (!spaceId) {
       logger.warn(
         `User (socketId: ${socket.id}) cannot leave space as 'spaceId' is empty`
@@ -60,7 +60,7 @@ export const registerSpaceHandlers = (
     await socket.leave(curSpaceIdStr);
 
     // Delete spaceId to room
-    delete peerCollection[socket.id].spaceId;
+    delete socketCollection[socket.id].spaceId;
     // Broadcast recent left user to all sockets in space
     io.to(curSpaceIdStr).emit('space:recent-user-leave', {
       socketId: socket.id,
@@ -98,7 +98,7 @@ export const registerSpaceHandlers = (
     const response: ParticipantDetails = {};
     // Associate participant id with producer.
     Object.keys(producerCollection).forEach((producerId) => {
-      const { peerId: socketId } = producerCollection[producerId];
+      const { socketId } = producerCollection[producerId];
       if (participantSids?.has(socketId)) {
         response[socketId] = {
           id: socketId,

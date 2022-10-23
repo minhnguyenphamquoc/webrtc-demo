@@ -1,13 +1,12 @@
 import {
   ConsumerCollection,
-  PeerCollection,
   ProducerCollection,
+  SocketCollection,
   SpaceCollection,
   TransportCollection,
 } from '@/types/collection';
 
-// NOTE: peer's ID is socket's ID
-export const peerCollection: PeerCollection = {};
+export const socketCollection: SocketCollection = {};
 
 export const spaceCollection: SpaceCollection = {};
 

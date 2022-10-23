@@ -9,7 +9,7 @@ import path from 'path';
 import pinoHttp from 'pino-http';
 import { Server } from 'socket.io';
 
-import { peerCollection, spaceCollection } from '@/data/collections';
+import { socketCollection, spaceCollection } from '@/data/collections';
 import { registerConnHandlers } from '@/handlers/conn';
 import { registerRtcHandlers } from '@/handlers/rtc';
 import { registerSpaceHandlers } from '@/handlers/space';
@@ -70,7 +70,9 @@ const main = async () => {
   io.on('connection', (socket) => {
     /// Socket Initialization
     logger.info(`User (socketId: ${socket.id}) has connected to socket`);
-    peerCollection[socket.id] = {};
+    socketCollection[socket.id] = {
+      id: socket.id,
+    };
     socket.emit('connect-success', { socketId: socket.id });
 
     /* Register handlers */
@@ -78,67 +80,6 @@ const main = async () => {
     registerSpaceHandlers(io, socket);
     registerRtcHandlers(io, socket);
   });
-
-  // io.on('connection', (socket) => {
-  /* Mediasoup Listeners */
-  //  On user retrieving media's RTP Capabilities
-
-  //   // Establish RECV Transport for connection from consumerTransport
-  //   socket.on('transport-recv-connect', async ({ dtlsParameters }) => {
-  //     await consumerTransport?.connect({ dtlsParameters });
-  //   });
-
-  //   socket.on('consume', async ({ rtpCapabilities }, cb) => {
-  //     if (!producer) {
-  //       throw new Error('Cannot find any valid producer to consume.');
-  //     }
-  //     try {
-  //       const isConsumable = router.canConsume({
-  //         producerId: producer.id as string,
-  //         rtpCapabilities,
-  //       });
-  //       logger.info(`Produce.id to be consumed: ${producer.id}`);
-  //       logger.info(`Is consumable: ${isConsumable}`);
-  //       if (isConsumable) {
-  //         // Init consumer
-  //         consumer = await consumerTransport?.consume({
-  //           producerId: producer.id,
-  //           rtpCapabilities,
-  //         });
-  //         // Add handlers for consumer
-  //         consumer?.on('transportclose', () => {
-  //           logger.info('Transport close from consumer');
-  //         });
-  //         consumer?.on('producerclose', () => {
-  //           logger.info('Producer of consumer has been closed');
-  //         });
-  //         // Extract consumer's params & sent back to client
-  //         const params = {
-  //           id: consumer?.id,
-  //           producerId: producer.id,
-  //           kind: consumer?.kind,
-  //           rtpParameters: consumer?.rtpParameters,
-  //         };
-  //         cb({
-  //           params,
-  //         });
-  //       }
-  //     } catch (err) {
-  //       logger.error(err);
-  //       cb({
-  //         params: {
-  //           error: err,
-  //         },
-  //       });
-  //     }
-  //   });
-
-  //   socket.on('consumer-resume', async () => {
-  //     logger.info('Consumer resumed');
-  //     await consumer?.resume();
-  //   });
-  // });
-  // });
 
   server.listen(process.env.APP_PORT, () => {
     logger.info(

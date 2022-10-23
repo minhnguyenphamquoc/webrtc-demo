@@ -9,32 +9,36 @@ export interface SpaceCollection {
   };
 }
 
-export interface PeerCollection {
+export interface SocketCollection {
   [id: string]: {
+    id: string;
     spaceId?: number;
   };
 }
 
 export interface TransportCollection {
   [id: string]: {
+    id: string;
     transport: WebRtcTransport;
-    peerId: string;
+    socketId: string;
     spaceId: number;
   };
 }
 
 export interface ProducerCollection {
   [id: string]: {
+    id: string;
     producer: Producer;
-    peerId: string;
+    socketId: string;
     spaceId: number;
   };
 }
 
 export interface ConsumerCollection {
   [id: string]: {
+    id: string;
     consumer: Consumer;
-    peerId: string;
+    socketId: string;
     spaceId: number;
   };
 }

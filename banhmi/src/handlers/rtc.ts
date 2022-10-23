@@ -63,8 +63,9 @@ export const registerRtcHandlers = (
     if (!transport) throw new Error('WebRTC Transport cannot be created');
     // Add transports association to peer & room
     transportCollection[transport.id] = {
+      id: transport.id,
       transport,
-      peerId: socket.id,
+      socketId: socket.id,
       spaceId,
     };
   };
@@ -119,8 +120,9 @@ export const registerRtcHandlers = (
     });
     // Add producer to collection along with its associations
     producerCollection[producer.id] = {
+      id: producer.id,
       producer,
-      peerId: socket.id,
+      socketId: socket.id,
       spaceId,
     };
     logger.info('Producer created successfully with the following info.');
@@ -161,7 +163,7 @@ export const registerRtcHandlers = (
 
     const { producer } = producerCollection[producerId];
     if (!producer) {
-      throw new Error('Cannot find any valid producer to consume.');
+      throw new Error('Cannot find the valid producer to consume.');
     }
 
     const isConsumable = router.canConsume({
@@ -203,16 +205,17 @@ export const registerRtcHandlers = (
 
     // Add consumer to collection along with its associations
     consumerCollection[consumer.id] = {
+      id: consumer.id,
       consumer,
-      peerId: socket.id,
+      socketId: socket.id,
       spaceId,
     };
 
     // Extract consumer's params & sent back to client
     const params = {
-      id: consumer?.id,
+      id: consumer.id,
       producerId: producer.id,
-      kind: consumer?.kind,
+      kind: consumer.kind,
       rtpParameters: consumer?.rtpParameters,
     };
 

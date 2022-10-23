@@ -1,4 +1,4 @@
-import { peerCollection } from '@/data/collections';
+import { socketCollection } from '@/data/collections';
 import { IOConnection, SocketConnection } from '@/types/ws';
 import { logger } from '@/utils/logger';
 
@@ -10,7 +10,7 @@ export const registerConnHandlers = (
   const disconnectHandler = () => {
     logger.info(`User (socketId: ${socket.id}) has disconnected from socket`);
     // Remove peers from collection
-    delete peerCollection[socket.id];
+    delete socketCollection[socket.id];
   };
   socket.on('disconnect', disconnectHandler);
 
