@@ -1,7 +1,7 @@
 import * as mediasoup from 'mediasoup';
 import { Router } from 'mediasoup/node/lib/Router';
 
-import { CreateWebRtcTransportResponse } from '@/handlers/rtc';
+import { CreateWebRtcTransportResponse } from '@/types/handlers/rtc';
 import { logger } from '@/utils/logger';
 
 export const createWorker = async () => {

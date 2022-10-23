@@ -1,4 +1,5 @@
 import {
+  ConsumerCollection,
   PeerCollection,
   ProducerCollection,
   SpaceCollection,
@@ -13,3 +14,5 @@ export const spaceCollection: SpaceCollection = {};
 export const transportCollection: TransportCollection = {};
 
 export const producerCollection: ProducerCollection = {};
+
+export const consumerCollection: ConsumerCollection = {};

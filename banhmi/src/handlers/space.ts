@@ -1,21 +1,30 @@
-import { peerCollection } from '@/data/collections';
+import { peerCollection, producerCollection } from '@/data/collections';
+import {
+  GetParticipantsErrorResponse,
+  GetParticipantsPayload,
+  GetParticipantsResponse,
+  JoinPayload,
+  ParticipantDetails,
+} from '@/types/handlers/space';
 import { IOConnection, SocketConnection } from '@/types/ws';
 import { logger } from '@/utils/logger';
-
-export interface SpaceJoinPayload {
-  spaceId: number;
-}
-
-export type SpaceLeavePayload = SpaceJoinPayload;
 
 export const registerSpaceHandlers = (
   io: IOConnection,
   socket: SocketConnection
 ) => {
-  /// Handles joining a specific space by ID
-  const spaceJoinHandler = async ({ spaceId }: SpaceJoinPayload, callback) => {
+  /**
+   * Handles joining a specific space by ID
+   * @param payload Payload
+   * @param callback Callback
+   */
+  const spaceJoinHandler = async (
+    payload: JoinPayload,
+    callback: () => void
+  ) => {
+    const { spaceId, producerId } = payload;
     logger.info(
-      `User (socketId: ${socket.id}) has joined a space (spaceId: ${spaceId})`
+      `socketId ${socket.id}) has joined a space (spaceId: ${spaceId})`
     );
 
     const spaceIdStr = spaceId.toString();
@@ -24,9 +33,10 @@ export const registerSpaceHandlers = (
     // Add spaceId to room
     peerCollection[socket.id].spaceId = spaceId;
 
-    // Broadcast latest joined user to all sockets in space
-    io.to(spaceIdStr).emit('space:latest-user-join', {
+    // Broadcast recent joined user to all sockets in space
+    io.to(spaceIdStr).emit('space:recent-user-join', {
       socketId: socket.id,
+      producerId,
       msg: `User (socketId: ${socket.id}) has joined the space.`,
     });
 
@@ -34,7 +44,9 @@ export const registerSpaceHandlers = (
   };
   socket.on('space:join', spaceJoinHandler);
 
-  /// Handles leaving current space
+  /**
+   * Handles leaving current space
+   */
   const spaceLeaveHandler = async () => {
     const { spaceId } = peerCollection[socket.id];
     if (!spaceId) {
@@ -49,8 +61,8 @@ export const registerSpaceHandlers = (
 
     // Delete spaceId to room
     delete peerCollection[socket.id].spaceId;
-    // Broadcast latest left user to all sockets in space
-    io.to(curSpaceIdStr).emit('space:latest-user-leave', {
+    // Broadcast recent left user to all sockets in space
+    io.to(curSpaceIdStr).emit('space:recent-user-leave', {
       socketId: socket.id,
       msg: `User (socketId: ${socket.id}) has left the space.`,
     });
@@ -60,4 +72,43 @@ export const registerSpaceHandlers = (
     );
   };
   socket.on('space:leave', spaceLeaveHandler);
+
+  /**
+   * Get list of participants' socket ids
+   * @param payload Payload
+   * @param callback Callback
+   * @returns List of participants' socket ids
+   */
+  const getParticipantsHandler = async (
+    payload: GetParticipantsPayload,
+    callback: (
+      res: GetParticipantsResponse | GetParticipantsErrorResponse
+    ) => void
+  ) => {
+    const { spaceId } = payload;
+    const participantSids = io.sockets.adapter.rooms.get(spaceId.toString());
+
+    if (!participantSids) {
+      return callback({
+        error: 'Space ID is not valid. Cannot get participants',
+      });
+    }
+
+    // Get participants along with their current producerId
+    const response: ParticipantDetails = {};
+    // Associate participant id with producer.
+    Object.keys(producerCollection).forEach((producerId) => {
+      const { peerId: socketId } = producerCollection[producerId];
+      if (participantSids?.has(socketId)) {
+        response[socketId] = {
+          id: socketId,
+          producerId,
+        };
+      }
+    });
+    return callback({
+      participants: response,
+    });
+  };
+  socket.on('space:get-participants', getParticipantsHandler);
 };

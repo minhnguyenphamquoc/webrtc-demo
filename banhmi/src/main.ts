@@ -82,18 +82,6 @@ const main = async () => {
   // io.on('connection', (socket) => {
   /* Mediasoup Listeners */
   //  On user retrieving media's RTP Capabilities
-  // socket.on('getRtpCapabilities', (callback) => {
-  //   logger.info('User retrieved RTP Capabilities');
-  //   const { rtpCapabilities } = router;
-  //   callback({ rtpCapabilities });
-  // });
-
-  // On user creating server-side transport
-  // socket.on('createWebRtcTransport', async (callback) => {
-  //   // Create WebRtcTransport from the first one who joins
-  //   const tsp = await createWebRtcTransport(router, callback);
-  //   if (!tsp) throw new Error('WebRTC Transport cannot be created');
-  // });
 
   //   // Establish RECV Transport for connection from consumerTransport
   //   socket.on('transport-recv-connect', async ({ dtlsParameters }) => {

@@ -1,57 +1,25 @@
-import { MediaKind, RtpParameters } from 'mediasoup/node/lib/RtpParameters';
-import {
-  DtlsParameters,
-  IceCandidate,
-  IceParameters,
-} from 'mediasoup/node/lib/WebRtcTransport';
+import { Consumer } from 'mediasoup/node/lib/Consumer';
 
 import {
+  consumerCollection,
   producerCollection,
   spaceCollection,
   transportCollection,
 } from '@/data/collections';
 import { createWebRtcTransport } from '@/ms/utils';
+import {
+  ConnectWebRtcTransportPayload,
+  CreateConsumerPayload,
+  CreateConsumerResponse,
+  CreateProducerPayload,
+  CreateProducerResponse,
+  CreateWebRtcTransportPayload,
+  CreateWebRtcTransportResponse,
+  GetRtpCapabilitiesPayload,
+  GetRtpCapabilitiesResponse,
+} from '@/types/handlers/rtc';
 import { IOConnection, SocketConnection } from '@/types/ws';
 import { logger } from '@/utils/logger';
-
-interface GetRtpCapabilitiesPayload {
-  spaceId: number;
-}
-
-interface GetRtpCapabilitiesResponse {
-  rtpCapabilities: object;
-}
-
-interface CreateWebRtcTransportPayload {
-  spaceId: number;
-}
-
-export interface CreateWebRtcTransportResponse {
-  params: {
-    id?: string;
-    iceParameters?: IceParameters;
-    iceCandidates?: IceCandidate[];
-    dtlsParameters?: DtlsParameters;
-    error?: unknown;
-  };
-}
-
-interface ConnectWebRtcTransportPayload {
-  spaceId: number;
-  transportId: string;
-  dtlsParameters: DtlsParameters;
-}
-
-interface CreateProducerPayload {
-  spaceId: number;
-  transportId: string;
-  kind: MediaKind;
-  rtpParameters: RtpParameters;
-}
-
-interface CreateProducerResponse {
-  id: string;
-}
 
 /**
  * Register RTC Handlers for Space communication
@@ -168,4 +136,89 @@ export const registerRtcHandlers = (
     });
   };
   socket.on('rtc:create-producer', createProducerHandler);
+
+  /**
+   * Handler for creating consumer on specified producer
+   * @param payload Payload
+   * @param callback Callback to socket
+   */
+  const createConsumerHandler = async (
+    payload: CreateConsumerPayload,
+    callback: (res: CreateConsumerResponse) => void
+  ) => {
+    const { spaceId, transportId, producerId, rtpCapabilities } = payload;
+    // Retrieve space's router
+    const { router } = spaceCollection[spaceId];
+    if (!router) {
+      throw new Error('Cannot find router for given space.');
+    }
+
+    // Retrieve consume transport
+    const { transport: consumerTransport } = transportCollection[transportId];
+    if (!router) {
+      throw new Error('Cannot find consume transport.');
+    }
+
+    const { producer } = producerCollection[producerId];
+    if (!producer) {
+      throw new Error('Cannot find any valid producer to consume.');
+    }
+
+    const isConsumable = router.canConsume({
+      producerId: producer.id,
+      rtpCapabilities,
+    });
+    logger.info(`Is consumable: ${isConsumable}`);
+    if (!isConsumable) {
+      callback({
+        params: {
+          error: 'Cannot consume media from producer',
+        },
+      });
+      return;
+    }
+
+    let consumer: Consumer | undefined;
+    try {
+      consumer = await consumerTransport.consume({
+        producerId: producer.id,
+        rtpCapabilities,
+      });
+    } catch (err) {
+      logger.error(err);
+      return callback({
+        params: {
+          error: err,
+        },
+      });
+    }
+
+    // Add handlers for consumer
+    consumer.on('transportclose', () => {
+      logger.info('Transport close from consumer');
+    });
+    consumer.on('producerclose', () => {
+      logger.info('Producer of consumer has been closed');
+    });
+
+    // Add consumer to collection along with its associations
+    consumerCollection[consumer.id] = {
+      consumer,
+      peerId: socket.id,
+      spaceId,
+    };
+
+    // Extract consumer's params & sent back to client
+    const params = {
+      id: consumer?.id,
+      producerId: producer.id,
+      kind: consumer?.kind,
+      rtpParameters: consumer?.rtpParameters,
+    };
+
+    callback({
+      params,
+    });
+  };
+  socket.on('rtc:create-consumer', createConsumerHandler);
 };
