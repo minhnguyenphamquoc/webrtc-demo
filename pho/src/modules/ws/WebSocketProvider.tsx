@@ -2,7 +2,7 @@ import { Socket, io } from 'socket.io-client';
 
 import React, { useEffect, useState } from 'react';
 
-const socket = io('wss://localhost:4000', {
+const socket = io(process.env.REACT_APP_VOICE_HOST as string, {
   closeOnBeforeunload: false,
 });
 

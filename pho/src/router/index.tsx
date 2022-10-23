@@ -10,17 +10,18 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <IndexPage />,
-    errorElement: <NotFoundPage />,
   },
   {
     path: '/about',
     element: <AboutPage />,
-    errorElement: <NotFoundPage />,
   },
   {
     path: '/spaces/:id',
     element: <SpacePage />,
-    errorElement: <NotFoundPage />,
+  },
+  {
+    path: '*',
+    element: <NotFoundPage />,
   },
 ]);
 

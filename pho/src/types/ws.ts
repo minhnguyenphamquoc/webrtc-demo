@@ -6,6 +6,8 @@ import {
   Transport,
 } from 'mediasoup-client/lib/Transport';
 
+import { RefObject } from 'react';
+
 export interface GetRTPCapabilitiesData {
   rtpCapabilities: any;
 }
@@ -62,7 +64,22 @@ export interface GetParticipantsResponse {
   error?: string;
 }
 
+export interface RecvTransports {
+  [id: string]: {
+    id: string;
+    transport: Transport;
+    peerSocketId: string;
+  };
+}
+
 export interface RecvTransport {
   transport: Transport;
-  peerId: string;
+  socketId: string;
+}
+
+export interface PeerAudioRefs {
+  [socketId: string]: {
+    id: string;
+    ref: RefObject<HTMLAudioElement>;
+  };
 }
